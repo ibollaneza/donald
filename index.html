@@ -103,13 +103,9 @@
     <div class="matrix"></div>
     <div class="container">
         <h1>Donald Trump Quotes</h1>
-        <input type="text" id="solanaIdInput" placeholder="Enter your Solana ID">
-        <button onclick="submitSolanaId()">Submit</button>
-        <div id="messageContainer" style="display: none;">
-            <input type="text" id="messageInput" placeholder="Type your message">
-            <button onclick="generateQuote()">Send</button>
-        </div>
-        <div id="quoteContainer" class="quote"></div>
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <button onclick="submitName()">Submit</button>
+        <div id="quoteContainer" class="quote" style="display: none;"></div>
     </div>
 
     <script>
@@ -126,12 +122,12 @@
             "I don't wear a toupee. - Donald Trump"
         ];
 
-        function submitSolanaId() {
-            const solanaId = document.getElementById('solanaIdInput').value;
-            if (solanaId.length >= 32 && solanaId.length <= 44) {
-                document.getElementById('messageContainer').style.display = 'block';
+        function submitName() {
+            const name = document.getElementById('nameInput').value;
+            if (name.trim() !== "") {
+                generateQuote();
             } else {
-                alert('Invalid Solana ID');
+                alert('Please enter your name');
             }
         }
 
