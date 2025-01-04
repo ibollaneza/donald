@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donald Trump Quotes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        body {
+            font-family: 'VT323', monospace;
+            color: #00FF00;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 2px solid #00FF00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00FF00;
+            width: 80%;
+            max-width: 600px;
+            z-index: 10;
+            position: relative;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 2px solid #00FF00;
+            background-color: #000000;
+            color: #00FF00;
+            font-size: 1em;
+        }
+
+        button {
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00FF00;
+            color: #000000;
+        }
+
+        .quote {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-style: italic;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid #00FF00;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite, slide-up 1s ease-out;
+        }
+
+        /* The typing effect */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* The cursor effect */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00FF00 }
+        }
+
+        /* The slide-up effect */
+        @keyframes slide-up {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Matrix rain effect */
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix"></div>
+    <div class="container">
+        <h1>Donald Trump Quotes</h1>
+        <input type="text" id="solanaIdInput" placeholder="Enter your Solana ID">
+        <button onclick="submitSolanaId()">Submit</button>
+        <div id="messageContainer" style="display: none;">
+            <input type="text" id="messageInput" placeholder="Type your message">
+            <button onclick="generateQuote()">Send</button>
+        </div>
+        <div id="quoteContainer" class="quote"></div>
+    </div>
+
+    <script>
+        const quotes = [
+            "I will be the greatest jobs president that God ever created. - Donald Trump",
+            "Nobody builds walls better than me. - Donald Trump",
+            "I have the best words. - Donald Trump",
+            "My IQ is one of the highest – and you all know it! - Donald Trump",
+            "I know words, I have the best words. - Donald Trump",
+            "We're going to win so much, you'll be so sick and tired of winning. - Donald Trump",
+            "I have a great relationship with the blacks. - Donald Trump",
+            "It's freezing and snowing in New York – we need global warming! - Donald Trump",
+            "I'm the least racist person you have ever interviewed. - Donald Trump",
+            "I don't wear a toupee. - Donald Trump"
+        ];
+
+        function submitSolanaId() {
+            const solanaId = document.getElementById('solanaIdInput').value;
+            if (solanaId.length >= 32 && solanaId.length <= 44) {
+                document.getElementById('messageContainer').style.display = 'block';
+            } else {
+                alert('Invalid Solana ID');
+            }
+        }
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quote = quotes[randomIndex];
+            const quoteContainer = document.getElementById('quoteContainer');
+
+            // Remove existing animation by resetting the element
+            quoteContainer.style.display = 'none';
+            quoteContainer.offsetHeight; // Force reflow
+            quoteContainer.style.display = 'block';
+
+            quoteContainer.innerText = quote;
+        }
+
+        // Matrix rain effect
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        document.querySelector('.matrix').appendChild(canvas);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrixCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#00FF00";
+            ctx.font = fontSize + "px 'VT323', monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixCharacters.charAt(Math.floor(Math.random() * matrixCharacters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+    </script>
+</body>
+</html>
